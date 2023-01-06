@@ -6,3 +6,10 @@ module "network" {
   private_subnet_cidrs = var.private_subnet_cidrs
   azs      = var.azs
 }
+
+module "acm" {
+  source   = "./module/acm"
+  app_name = var.app_name
+  zone     = var.zone
+  domain   = var.domain
+}
