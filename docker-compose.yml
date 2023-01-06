@@ -9,6 +9,6 @@ services:
       - .env
     volumes:
       - .:/terraform
-    working_dir: /terraform/src
+    working_dir: /terraform
     entrypoint: ash #これがないとpsが終了する
     tty: true
