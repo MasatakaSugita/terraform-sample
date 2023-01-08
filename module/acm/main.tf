@@ -17,6 +17,9 @@ resource "aws_acm_certificate" "main" {
   }
 }
 
+#----------------------------
+# Route53　CNAMWレコードを追加
+#----------------------------
 resource "aws_route53_record" "main" {
   for_each = {
   for dvo in aws_acm_certificate.main.domain_validation_options : dvo.domain_name => {
