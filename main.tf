@@ -30,3 +30,8 @@ module "ecs_cluster" {
   source   = "./module/ecs_cluster"
   app_name = var.app_name
 }
+
+module "ecr" {
+  source = "./module/ecr"
+  app_name = var.app_name
+}
