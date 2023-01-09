@@ -26,6 +26,26 @@ resource "aws_lb_listener" "http" {
   }
 }
 
+#defaultはこれで作成して、ecs作成時にルールを追加する
+resource "aws_lb_listener" "https" {
+  port     = 443
+  protocol = "HTTPS"
+
+  certificate_arn = var.acm_id
+
+  load_balancer_arn = aws_lb.main.arn
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      status_code  = "200"
+      message_body = "ok"
+    }
+  }
+}
+
 #----------------------------
 # SG
 #----------------------------

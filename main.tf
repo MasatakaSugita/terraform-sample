@@ -35,3 +35,20 @@ module "ecr" {
   source = "./module/ecr"
   app_name = var.app_name
 }
+
+module "iam" {
+  source   = "./module/iam"
+  app_name = var.app_name
+}
+
+module "ecs_app" {
+  source = "./module/ecs_app"
+
+  app_name = var.app_name
+  cluster_name = module.ecs_cluster.cluster_name
+  vpc_id                      = module.network.vpc_id
+  public_subnet_ids           = module.network.public_subnet_ids
+  https_listener_arn          = module.elb.https_listener_arn
+  iam_role_task_execution_arn = module.iam.iam_role_task_execution_arn
+  retention_in_days = 7
+}
