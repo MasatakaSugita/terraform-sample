@@ -25,3 +25,8 @@ module "elb" {
   domain            = var.domain
   acm_id            = module.acm.acm_id
 }
+
+module "ecs_cluster" {
+  source   = "./module/ecs_cluster"
+  app_name = var.app_name
+}
