@@ -52,3 +52,10 @@ module "ecs_app" {
   iam_role_task_execution_arn = module.iam.iam_role_task_execution_arn
   retention_in_days = 7
 }
+
+module "waf" {
+  source = "./module/waf"
+
+  app_name = var.app_name
+  alb_arn = module.elb.alb_arn
+}
