@@ -10,6 +10,34 @@ resource "aws_wafv2_web_acl" "main" {
     allow {}
   }
 
+  #日本からの通信を通す
+  #forwarded_ip_configのX-Forwarded-Forヘッダーでip取得をすることで日本の踏み台サーバー経由でもある程度カバーできる
+  rule {
+    name = "allowJpRule"
+    priority = 0
+
+    action {
+      allow {}
+    }
+
+    statement {
+      geo_match_statement {
+        forwarded_ip_config {
+          header_name = "X-Forwarded-For"
+          fallback_behavior = "MATCH"
+        }
+        country_codes = ["JP"]
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "allowJpRuleMetric"
+      sampled_requests_enabled   = false
+    }
+  }
+
+
   #DDoS攻撃に対するルール(5分間あたりのlimit(閾値)を超えた場合にblockする)
   rule {
     name     = "AWSRateBasedRule"
